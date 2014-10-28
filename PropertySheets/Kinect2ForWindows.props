@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <!-- Debug|Win32 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(KINECTSDK20_DIR)\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(KINECTSDK20_DIR)\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Link>
+      <AdditionalDependencies>Kinect20.lib;Kinect20.Face.lib;Kinect20.VisualGestureBuilder.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(ProjectName)'=='Face'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x86" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='HDFace'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x86" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Fusion'">xcopy "$(KINECTSDK20_DIR)\Redist\Fusion\x86" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Gesture'">xcopy "$(KINECTSDK20_DIR)\Redist\VGB\x86" "$(OutDir)" /e /y /i /r &amp; if exist "$(ProjectDir)\*.gba" copy "$(ProjectDir)\*.gba" "$(OutDir)" /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <!-- Release|Win32 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(KINECTSDK20_DIR)\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(KINECTSDK20_DIR)\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Link>
+      <AdditionalDependencies>Kinect20.lib;Kinect20.Face.lib;Kinect20.Fusion.lib;Kinect20.VisualGestureBuilder.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(ProjectName)'=='Face'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x86" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='HDFace'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x86" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Fusion'">xcopy "$(KINECTSDK20_DIR)\Redist\Fusion\x86" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Gesture'">xcopy "$(KINECTSDK20_DIR)\Redist\VGB\x86" "$(OutDir)" /e /y /i /r &amp; if exist "$(ProjectDir)\*.gba" copy "$(ProjectDir)\*.gba" "$(OutDir)" /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <!-- Debug|x64 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(KINECTSDK20_DIR)\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(KINECTSDK20_DIR)\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalDependencies>Kinect20.lib;Kinect20.Face.lib;Kinect20.Fusion.lib;Kinect20.VisualGestureBuilder.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(ProjectName)'=='Face'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x64" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='HDFace'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x64" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Fusion'">xcopy "$(KINECTSDK20_DIR)\Redist\Fusion\x64" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Gesture'">xcopy "$(KINECTSDK20_DIR)\Redist\VGB\x64" "$(OutDir)" /e /y /i /r &amp; if exist "$(ProjectDir)\*.gba" copy "$(ProjectDir)\*.gba" "$(OutDir)" /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <!-- Release|x64 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(KINECTSDK20_DIR)\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(KINECTSDK20_DIR)\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalDependencies>Kinect20.lib;Kinect20.Face.lib;Kinect20.Fusion.lib;Kinect20.VisualGestureBuilder.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(ProjectName)'=='Face'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x64" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='HDFace'">xcopy "$(KINECTSDK20_DIR)\Redist\Face\x64" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Fusion'">xcopy "$(KINECTSDK20_DIR)\Redist\Fusion\x64" "$(OutDir)" /e /y /i /r</Command>
+      <Command Condition="'$(ProjectName)'=='Gesture'">xcopy "$(KINECTSDK20_DIR)\Redist\VGB\x64" "$(OutDir)" /e /y /i /r &amp; if exist "$(ProjectDir)\*.gba" copy "$(ProjectDir)\*.gba" "$(OutDir)" /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+</Project>

@@ -25,7 +25,7 @@ namespace Kinect2 {
 			//
 		const bool initializeColorStream(ColorImageFormat colorFormat = ColorImageFormat_Bgra);
 			//
-		const bool initializeIRStream();
+		const bool initializeInfraredStream();
 			//
 		const bool initializeDepthStream();
 			//
@@ -49,7 +49,17 @@ namespace Kinect2 {
 		const bool updataStreamData();
 
 		/* Accessor Set */
+			// Color
 		const cv::Mat& getColorImage() const;
+			// Infrared
+		const cv::Mat& getInfraredRawImage() const;
+		const cv::Mat& getInfraredVisulizedImage();
+			// Depth
+		const cv::Mat& getDepthRawImage() const;
+		const cv::Mat& getDepthVisualizedImage();
+			// Body Index
+		const cv::Mat& getBodyIndexRawImage() const;
+		const cv::Mat& getBodyIndexVisualizedImage();
 
 		/* Kinect Behavior Checking Set */
 		const bool isKinectOpened();
@@ -91,6 +101,11 @@ namespace Kinect2 {
 		cv::Mat cvColorMat;
 		cv::Mat cvInfraredMat;
 		cv::Mat cvDepthMat;
+		cv::Mat cvBodyIndexMat;
+
+		cv::Mat cvVisualizedInfraredMat;
+		cv::Mat cvVisualizedDepthMat;
+		cv::Mat cvVisualizedBodyIndex;
 
 		/* Kinect Behavior Description */
 		bool enabledColorStream;
@@ -102,6 +117,7 @@ namespace Kinect2 {
 		bool enabledMultiStream;	//TODO
 
 		/* Auxiliary function set */
+		cv::Vec3b colorizeBody(const unsigned char& bodyIndex);
 	};
 }
 

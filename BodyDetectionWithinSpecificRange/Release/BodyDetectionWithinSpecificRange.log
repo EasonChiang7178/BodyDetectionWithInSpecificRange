@@ -1,6 +1,10 @@
-﻿  main.cpp
+﻿  Exceptions.cpp
+  K4Wv2ToOpenCV.cpp
+..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp(294): warning C4018: '<' : signed/unsigned mismatch
+..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp(328): warning C4018: '<' : signed/unsigned mismatch
+  main.cpp
   Generating code
   Finished generating code
-  BodyDetectionWithinSpecificRange.vcxproj -> C:\Users\Chiang\Desktop\BodyDetectionWithinSpecificRange\\Bin\Release\BodyDetectionWithinSpecificRange.exe
+  BodyDetectionWithinSpecificRange.vcxproj -> C:\Users\Chiang\Documents\GitHub\BodyDetectionWithinSpecificRange\\Bin\Release\BodyDetectionWithinSpecificRange.exe
   ..\Libs\KCBv2Lib\x86\Release\KCBv2.dll
   1 個のファイルをコピーしました

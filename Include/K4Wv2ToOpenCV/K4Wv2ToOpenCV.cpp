@@ -2,6 +2,169 @@
 
 namespace Kinect2 {
 
+Hand::Hand()
+: confidence(TrackingConfidence_Low), state(HandState_Unknown)
+{}
+
+TrackingConfidence Hand::getConfidence() const {
+	return confidence;
+}
+
+HandState Hand::getState() const {
+	return state;
+}
+
+Joint::Joint()
+: orientation( cv::Vec4f() ), parentJoint( JointType::JointType_Count ), position( cv::Vec3f() ), 
+  mTrackingState(TrackingState_NotTracked)
+{}
+
+Joint::Joint(const cv::Vec3f& position, const cv::Vec4f& orientation, TrackingState trackingState, JointType parentJoint )
+: orientation( orientation ), position( position ), parentJoint( parentJoint ), 
+trackingState( trackingState )
+{}
+
+JointType Joint::getParentJoint() const {
+	return parentJoint;
+}
+
+const cv::Vec3f& Joint::getPosition() const {
+	return position;
+}
+
+const cv::Vec4f& Joint::getOrientation() const {
+	return mOrientation;
+}
+
+TrackingState Joint::getTrackingState() const {
+	return trackingState;
+}
+
+Body::Body()
+: engaged( DetectionResult_Unknown ), id( 0 ), index( 0 ), 
+lean( cv::Vec2f() ), leanTrackingState( TrackingState_NotTracked ), 
+restricted( false ), tracked( false ),
+startTimeStamp(0L), currentTimeStamp(0L)
+{
+	for ( size_t i = 0; i < (size_t) Activity_Count; ++i )
+		activities[ (Activity) i ] = DetectionResult_Unknown;
+	for ( size_t i = 0; i < (size_t) Appearance_Count; ++i )
+		appearances[ (Appearance) i ] = DetectionResult_Unknown;
+	for ( size_t i = 0; i < (size_t) Expression_Count; ++i )
+		expressions[ (Expression) i ] = DetectionResult_Unknown;
+}
+
+float Body::calcConfidence(bool weighted) const {
+	float c = 0.0f;
+	if (weighted) {
+		static map< JointType, float > weights;
+		if (weights.empty()) {
+			weights[ JointType::JointType_SpineBase ]		= 0.042553191f;
+			weights[ JointType::JointType_SpineMid ]		= 0.042553191f;
+			weights[ JointType::JointType_Neck ]			= 0.021276596f;
+			weights[ JointType::JointType_Head ]			= 0.042553191f;
+			weights[ JointType::JointType_ShoulderLeft ]	= 0.021276596f;
+			weights[ JointType::JointType_ElbowLeft ]		= 0.010638298f;
+			weights[ JointType::JointType_WristLeft ]		= 0.005319149f;
+			weights[ JointType::JointType_HandLeft ]		= 0.042553191f;
+			weights[ JointType::JointType_ShoulderRight ]	= 0.021276596f;
+			weights[ JointType::JointType_ElbowRight ]		= 0.010638298f;
+			weights[ JointType::JointType_WristRight ]		= 0.005319149f;
+			weights[ JointType::JointType_HandRight ]		= 0.042553191f;
+			weights[ JointType::JointType_HipLeft ]			= 0.021276596f;
+			weights[ JointType::JointType_KneeLeft ]		= 0.010638298f;
+			weights[ JointType::JointType_AnkleLeft ]		= 0.005319149f;
+			weights[ JointType::JointType_FootLeft ]		= 0.042553191f;
+			weights[ JointType::JointType_HipRight ]		= 0.021276596f;
+			weights[ JointType::JointType_KneeRight ]		= 0.010638298f;
+			weights[ JointType::JointType_AnkleRight ]		= 0.005319149f;
+			weights[ JointType::JointType_FootRight ]		= 0.042553191f;
+			weights[ JointType::JointType_SpineShoulder ]	= 0.002659574f;
+			weights[ JointType::JointType_HandTipLeft ]		= 0.002659574f;
+			weights[ JointType::JointType_ThumbLeft ]		= 0.002659574f;
+			weights[ JointType::JointType_HandTipRight ]	= 0.002659574f;
+			weights[ JointType::JointType_ThumbRight ]		= 0.521276596f;
+		}
+		for ( map<JointType, Joint>::const_iterator iter = jointMap.begin(); iter != jointMap.end(); ++iter ) {
+			if ( iter->second.getTrackingState() == TrackingState::TrackingState_Tracked ) {
+				c += weights[ iter->first ];
+			}
+		}
+	} else {
+		for ( map<JointType, Joint>::const_iterator iter = jointMap.begin(); iter != jointMap.end(); ++iter ) {
+			if ( iter->second.getTrackingState() == TrackingState::TrackingState_Tracked ) {
+				c += 1.0f;
+			}
+		}
+		c /= (float)JointType::JointType_Count;
+	}
+	return c;
+}
+
+const map< Activity, DetectionResult >& Body::getActivities() const {
+	return activities;
+}
+
+const map< Appearance, DetectionResult >& Body::getAppearances() const {
+	return appearances;
+}
+
+const map< Expression, DetectionResult >& Body::getExpressions() const {
+	return mExpressions;
+}
+
+const Body::Hand& Body::getHandLeft() const {
+	return hands[ 0 ];
+}
+
+const Body::Hand& Body::getHandRight() const {
+	return hands[ 1 ];
+}
+
+uint64_t Body::getId() const { 
+	return id; 
+}
+
+uint8_t Body::getIndex() const { 
+	return index; 
+}
+
+const map< JointType, Body::Joint >& Body::getJointMap() const { 
+	return jointMap; 
+}
+
+const cv::Vec2f& Body::getLean() const {
+	return lean;
+}
+
+TrackingState Body::getLeanTrackingState() const {
+	return leanTrackingState;
+}
+
+DetectionResult Body::isEngaged() const {
+	return engaged;
+}
+
+bool Body::isTracked() const { 
+	return tracked; 
+}
+
+Frame::Frame()
+: timeStamp(0L)
+{}
+
+long long Frame::getTimeStamp() const {
+	return timeStamp;
+}
+
+BodyFrame::BodyFrame()
+: Frame()
+{}
+
+const vector< Body >& BodyFrame::getBodies() const {
+	return bodies;
+}
+
 	//-------------------------------------------------//
 	//---        Initialization Function Set        ---//
 	//-------------------------------------------------//
@@ -370,13 +533,22 @@ namespace Kinect2 {
 			}
 		}
 
-		/* Release the resource used in KCBv2*/
+		/* Release the resource used in KCBv2 */
 		if (enabledColorStream == true)		KCBReleaseColorFrame(&kcbColorFrame);
 		if (enabledInfraredStream == true)	KCBReleaseInfraredFrame(&kcbInfraredFrame);
 		if (enabledDepthStream == true)		KCBReleaseDepthFrame(&kcbDepthFrame);
 		if (enabledBodyIndexStream == true) KCBReleaseBodyIndexFrame(&kcbBodyIndexFrame);
 		if (enabledBodyStream == true)		KCBReleaseBodyFrame(&kcbBodyFrame);
 		//if (enabledAudioStream == true) KCBReleaseAudioFrame(&kcbAudioFrame); // No KCBv2 API to release?
+
+		/* Release the resource used in OpenCV */
+		if (cvColorMat.empty() == false)				cvColorMat.release();
+		if (cvInfraredMat.empty() == false)				cvInfraredMat.release();
+		if (cvVisualizedInfraredMat.empty() == false) 	cvVisualizedInfraredMat.release();
+		if (cvDepthMat.empty() == false)				cvDepthMat.release();
+		if (cvVisualizedDepthMat.empty() == false)		cvVisualizedDepthMat.release();
+		if (cvBodyIndexMat.empty() == false)			cvBodyIndexMat.release();
+		if (cvVisualizedBodyIndex.empty() == false)		cvVisualizedBodyIndex.release();
 	}
 
 

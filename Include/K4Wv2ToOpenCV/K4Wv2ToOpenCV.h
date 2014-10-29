@@ -16,6 +16,107 @@
 
 namespace Kinect2 {
 
+		// Basic Type for all frame data in this class
+	class Frame
+	{
+	public:
+		Frame();
+	
+		long long 		getTimeStamp() const;
+
+	protected:
+		long long		timeStamp;
+	};
+
+	/* Body data description */
+	class Hand {
+	public:
+		Hand();
+
+		TrackingConfidence	getConfidence() const;
+		HandState			getHandState() const;
+
+	protected:
+		TrackingConfidence	confidence;
+		HandState			state;
+	};
+
+	class Joint {
+	public:
+		Joint();
+		
+		uint64_t			getId() const;
+		const cv::Vec4f&	getOrientation() const;
+		const cv::Vec3f&	getPosition() const;
+		JointType			getParentJoint() const;
+		TrackingState		getTrackingState() const;
+
+	protected:
+		Joint( const cv::Vec3f& position, const cv::Vec4f& orientation, 
+			TrackingState trackingState, JointType parentJoint);
+		
+		cv::Vec4f		orientation;
+		JointType		parentJoint;
+		ci::Vec3f		position;
+		TrackingState	trackingState;
+	};
+
+	class Body {
+	public:
+		Body();
+	
+		float											calcConfidence( bool weighted = false ) const;
+	
+		uint64_t										getId() const;
+		uint8_t											getIndex() const;
+
+		bool											isRestricted() const;
+		bool											isTracked() const;
+
+		const std::map<JointType, Body::Joint>&			getJointMap() const;
+		const Hand&										getHandLeft() const;
+		const Hand&										getHandRight() const;
+
+		DetectionResult									isEngaged() const;
+		TrackingState									getLeanTrackingState() const;
+
+		const std::map<Activity, DetectionResult>&		getActivities() const;
+		const std::map<Appearance, DetectionResult>&	getAppearances() const;
+		const std::map<Expression, DetectionResult>&	getExpressions() const;
+		const cv::Vec2f&								getLean() const;
+
+		const long long 								getTrackedTime() const;
+		
+	protected:
+		uint64_t										id;
+		uint8_t											index;
+
+		std::map<JointType, Body::Joint>				jointMap;
+		Hand											hands[ 2 ];
+
+		cv::Vec2f										lean;
+		TrackingState									leanTrackingState;
+		bool											restricted;
+		bool											tracked;
+
+		DetectionResult									engaged;
+		std::map<Activity, DetectionResult>				activities;
+		std::map<Appearance, DetectionResult>			appearances;
+		std::map<Expression, DetectionResult>			expressions;
+
+		long long 										currentTimeStamp;
+		long long 										startTimeStamp;
+	};
+
+	class BodyFrame : public Frame {
+	public:
+		BodyFrame();
+		const std::vector< Body >& 	getBodies() const;
+
+	protected:
+		std::vector< Body >			bodies;
+	};
+
 	class K4Wv2ToOpenCV {
 
 	public:

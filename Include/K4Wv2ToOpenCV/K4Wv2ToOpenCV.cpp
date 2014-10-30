@@ -757,9 +757,6 @@ namespace Kinect2 {
 						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 3, cv::Scalar(255, 102, 187), CV_FILLED, CV_AA);
 					else if (p == TrackingState_Tracked)
 						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 8, cv::Scalar(255, 0, 127), CV_FILLED, CV_AA);
-
-					if (colorJointMapIter->first == JointType_SpineMid)
-						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 10, cv::Scalar(255, 255, 255), CV_FILLED, CV_AA);
 				}
 		}
 	}
@@ -893,6 +890,37 @@ namespace Kinect2 {
 	const BodyFrame& K4Wv2ToOpenCV::getBodyFrame() const {
 		return cvBodyFrame;
 	}
+
+	//-------------------------------------------------//
+	//---        Kinect Behavior Checking Set       ---//
+	//-------------------------------------------------//
+	const bool K4Wv2ToOpenCV::isKinectOpened() const {
+		bool sensorIsOpen = false;
+		if (KCBKinectHandle != KCB_INVALID_HANDLE)
+			sensorIsOpen = true;
+
+		return true;
+	}
+
+	const bool K4Wv2ToOpenCV::isColorStreamEnabled() const {
+		return enabledColorStream;
+	}
+	const bool K4Wv2ToOpenCV::isInfraredStreamEnabled() const {
+		return enabledInfraredStream;
+	}
+	const bool K4Wv2ToOpenCV::isDepthStreamEnabled() const {
+		return enabledDepthStream;
+	}
+	const bool K4Wv2ToOpenCV::isBodyIndexStreamEnabled() const {
+		return enabledBodyIndexStream;
+	}
+	const bool K4Wv2ToOpenCV::isBodyStreamEnabled() const {
+		return enabledBodyStream;
+	}
+	const bool K4Wv2ToOpenCV::isAudioStreamEnabled() const {
+		return enabledAudioStream;
+	}
+
 
 	void K4Wv2ToOpenCV::closeKinectSensor() {
 		this->~K4Wv2ToOpenCV();

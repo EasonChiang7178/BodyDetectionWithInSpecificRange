@@ -186,21 +186,21 @@ namespace Kinect2 {
 		const BodyFrame& getBodyFrame() const;
 
 		/* Kinect Behavior Checking Set */
-		const bool isKinectOpened();
-		const bool isColorStreamEnabled();
-		const bool isInfraredStreamEnabled();
-		const bool isDepthStreamEnabled();
-		const bool isBodyIndexStreamEnabled();
-		const bool isBodyStreamEnabled();
-		const bool isAudioStreamEnabled();
+		const bool isKinectOpened() const;
+		const bool isColorStreamEnabled() const;
+		const bool isInfraredStreamEnabled() const;
+		const bool isDepthStreamEnabled() const;
+		const bool isBodyIndexStreamEnabled() const;
+		const bool isBodyStreamEnabled() const;
+		const bool isAudioStreamEnabled() const;
 
 		/* Coodinate Mapping Set */
-		cv::Vec2i											mapCameraToColor(const cv::Vec3f& v) const;
-		std::vector<cv::Vec2i>								mapCameraToColor(const std::vector<cv::Vec3f>& v) const;
-		cv::Vec2i											mapCameraToDepth(const cv::Vec3f& v) const;
-		std::vector<cv::Vec2i>								mapCameraToDepth(const std::vector<cv::Vec3f>& v) const;
+		cv::Vec2i					mapCameraToColor(const cv::Vec3f& v) const;
+		std::vector<cv::Vec2i>		mapCameraToColor(const std::vector<cv::Vec3f>& v) const;
+		cv::Vec2i					mapCameraToDepth(const cv::Vec3f& v) const;
+		std::vector<cv::Vec2i>		mapCameraToDepth(const std::vector<cv::Vec3f>& v) const;
 
-	private:
+	protected:
 		/* Constructors for singleton pattern using */
 			// Constructor main body
 		K4Wv2ToOpenCV();

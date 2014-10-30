@@ -19,16 +19,28 @@
     <Filter Include="Source Files\K4Wv2ToOpenCV">
       <UniqueIdentifier>{7f0a3cff-da0f-4d7c-a327-28992762fd0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\BodyDetection">
+      <UniqueIdentifier>{3cc5c51d-b76d-472b-b7b1-5d63b955c030}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BodyDetection">
+      <UniqueIdentifier>{fa4b27cb-c9d1-4ac8-897e-71de2ca11960}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp">
       <Filter>Source Files\K4Wv2ToOpenCV</Filter>
     </ClCompile>
     <ClCompile Include="..\Include\K4Wv2ToOpenCV\Exceptions.cpp">
       <Filter>Source Files\K4Wv2ToOpenCV</Filter>
+    </ClCompile>
+    <ClCompile Include="BodyDetection\BodyDetection.cpp">
+      <Filter>Source Files\BodyDetection</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BodyDetectionMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="..\Include\K4Wv2ToOpenCV\Exceptions.h">
       <Filter>Header Files\K4Wv2ToOpenCV</Filter>
+    </ClInclude>
+    <ClInclude Include="BodyDetection\BodyDetection.h">
+      <Filter>Header Files\BodyDetection</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

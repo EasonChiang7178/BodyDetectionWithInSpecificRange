@@ -147,11 +147,14 @@
   <ItemGroup>
     <ClCompile Include="..\Include\K4Wv2ToOpenCV\Exceptions.cpp" />
     <ClCompile Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="BodyDetectionMain.cpp" />
+    <ClCompile Include="BodyDetection\BodyDetection.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\K4Wv2ToOpenCV\Exceptions.h" />
     <ClInclude Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.h" />
+    <ClInclude Include="BodyDetection\BodyDetection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

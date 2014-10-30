@@ -1,7 +1,4 @@
-﻿  Exceptions.cpp
-  K4Wv2ToOpenCV.cpp
-..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp(294): warning C4018: '<' : signed/unsigned mismatch
-..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp(328): warning C4018: '<' : signed/unsigned mismatch
+﻿  K4Wv2ToOpenCV.cpp
   main.cpp
   Generating code
   Finished generating code

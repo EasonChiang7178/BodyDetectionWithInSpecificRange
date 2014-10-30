@@ -1,4 +1,6 @@
-﻿  K4Wv2ToOpenCV.cpp
+﻿  main.cpp
+  K4Wv2ToOpenCV.cpp
+  Generating Code...
   BodyDetectionWithinSpecificRange.vcxproj -> C:\Users\Chiang\Documents\GitHub\BodyDetectionWithinSpecificRange\\Bin\Debug\BodyDetectionWithinSpecificRange.exe
   ..\Libs\KCBv2Lib\x86\Debug\KCBv2.dll
   1 個のファイルをコピーしました

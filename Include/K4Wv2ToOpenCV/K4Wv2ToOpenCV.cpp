@@ -196,7 +196,7 @@ namespace Kinect2 {
 	}
 	
 	const long long Body::getTrackedTime() const {
-		return (this->currentTimeStamp - this->startTimeStamp);
+		return (this->currentTimeStamp - this->startTimeStamp) / 1000000; // Get millisecond
 	}
 	
 	Frame::Frame()
@@ -227,7 +227,7 @@ namespace Kinect2 {
 	//---        Initialization Function Set        ---//
 	//-------------------------------------------------//
 					/** Constructors **/
-	K4Wv2ToOpenCV& K4Wv2ToOpenCV::GetDefaultKinectSensor() {
+	K4Wv2ToOpenCV& K4Wv2ToOpenCV::getDefaultKinectSensor() {
 		static K4Wv2ToOpenCV instance;
 
 		return instance;
@@ -560,8 +560,10 @@ namespace Kinect2 {
 						body.tracked = true;
 
 						/* Time stamp for tracked body */
-						if (body.startTimeStamp == 0L)
+						if (cvBodyFrame.bodies[i].startTimeStamp == 0L)
 							body.startTimeStamp = currentTimeStamp;
+						else
+							body.startTimeStamp = cvBodyFrame.bodies[i].startTimeStamp;
 						body.currentTimeStamp = currentTimeStamp;
 
 						if (enabledJointTracking == true) {
@@ -697,6 +699,7 @@ namespace Kinect2 {
 					} else { // if isTracked equal to false
 						body.currentTimeStamp = 0L;
 						body.startTimeStamp = 0L;
+						body.tracked = false;
 					}
 
 					kinectBody->Release();
@@ -749,10 +752,54 @@ namespace Kinect2 {
 			for (auto colorJointMapIter = colorJointMap.begin(); colorJointMapIter != colorJointMap.end(); colorJointMapIter++)
 				if ((colorJointMapIter->second[0] > 0) && (colorJointMapIter->second[0] < cvColorMat.cols) && (colorJointMapIter->second[1] > 0) && (colorJointMapIter->second[1] < cvColorMat.rows)) {
 					TrackingState p = cameraJointMap[colorJointMapIter->first].trackingState;
+
 					if (p == TrackingState_Inferred)
 						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 3, cv::Scalar(255, 102, 187), CV_FILLED, CV_AA);
 					else if (p == TrackingState_Tracked)
 						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 8, cv::Scalar(255, 0, 127), CV_FILLED, CV_AA);
+
+					if (colorJointMapIter->first == JointType_SpineMid)
+						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 10, cv::Scalar(255, 255, 255), CV_FILLED, CV_AA);
+				}
+		}
+	}
+
+	void K4Wv2ToOpenCV::drawBodySkeletonInDepthImage() {
+		for (int detectedBody = 0; detectedBody < BODY_COUNT; detectedBody++) {
+			if (cvBodyFrame.getBodies()[detectedBody].isTracked() == false)
+				continue;
+
+			std::map< JointType, Joint >& cameraJointMap = cvBodyFrame.bodies[detectedBody].jointMap;
+			std::map< JointType, cv::Vec2i > depthJointMap;
+
+			for (auto cameraJointMapIter = cameraJointMap.begin(); cameraJointMapIter != cameraJointMap.end(); cameraJointMapIter++)
+				depthJointMap.insert(std::pair< JointType, cv::Vec2i >(cameraJointMapIter->first, mapCameraToDepth(cameraJointMapIter->second.position)));
+
+			/* Draw Lines */
+			for (int i = 0; i < JointType_Count; i++) {
+				cv::Point p1(depthJointMap[skeletonDrawOrder[i].first]);
+				cv::Point p2(depthJointMap[skeletonDrawOrder[i].second]);
+
+				if (p1.x > 0 && p1.y > 0 && p2.x > 0 && p2.y > 0) {
+					TrackingState p1State = cameraJointMap[skeletonDrawOrder[i].first].trackingState;
+					TrackingState p2State = cameraJointMap[skeletonDrawOrder[i].second].trackingState;
+
+					if (p1State == TrackingState_Inferred || p2State == TrackingState_Inferred)
+						cv::line(cvDepthMat, cv::Point(depthJointMap[skeletonDrawOrder[i].first]), cv::Point(depthJointMap[skeletonDrawOrder[i].second]), static_cast<cv::Scalar>(this->colorizeBody(detectedBody)), 1, 8);
+					else
+						cv::line(cvDepthMat, cv::Point(depthJointMap[skeletonDrawOrder[i].first]), cv::Point(depthJointMap[skeletonDrawOrder[i].second]), static_cast<cv::Scalar>(this->colorizeBody(detectedBody)), 7, CV_AA);
+				}
+			}
+
+			/* Draw Joints */
+			for (auto depthJointMapIter = depthJointMap.begin(); depthJointMapIter != depthJointMap.end(); depthJointMapIter++)
+				if ((depthJointMapIter->second[0] > 0) && (depthJointMapIter->second[0] < cvDepthMat.cols) && (depthJointMapIter->second[1] > 0) && (depthJointMapIter->second[1] < cvDepthMat.rows)) {
+				TrackingState p = cameraJointMap[depthJointMapIter->first].trackingState;
+
+				if (p == TrackingState_Inferred)
+					cv::circle(cvDepthMat, cv::Point(depthJointMapIter->second), 3, cv::Scalar(255, 102, 187), CV_FILLED, CV_AA);
+				else if (p == TrackingState_Tracked)
+					cv::circle(cvDepthMat, cv::Point(depthJointMapIter->second), 8, cv::Scalar(255, 0, 127), CV_FILLED, CV_AA);
 				}
 		}
 	}
@@ -843,7 +890,9 @@ namespace Kinect2 {
 		return this->cvVisualizedBodyIndex;
 	}
 
-
+	const BodyFrame& K4Wv2ToOpenCV::getBodyFrame() const {
+		return cvBodyFrame;
+	}
 
 	void K4Wv2ToOpenCV::closeKinectSensor() {
 		this->~K4Wv2ToOpenCV();

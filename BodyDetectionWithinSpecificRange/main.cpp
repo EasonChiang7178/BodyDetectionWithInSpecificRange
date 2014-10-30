@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char** argv) {
 	cv::setUseOptimized(true);
 
-	K4Wv2ToOpenCV& theKinect2 = K4Wv2ToOpenCV::GetDefaultKinectSensor();
+	K4Wv2ToOpenCV& theKinect2 = K4Wv2ToOpenCV::getDefaultKinectSensor();
 	//theKinect2.setTryToReadingDataTimes(2000);
 	//theKinect2.setTryToReadingDataInterval(1);
 
@@ -21,6 +21,7 @@ int main(int argc, char** argv) {
 	do {
 		theKinect2.updataStreamData();
 		theKinect2.drawBodySkeletonInColorImage();
+		//theKinect2.drawBodySkeletonInDepthImage();
 
 		const cv::Mat testColor = theKinect2.getColorImage();
 		cv::Mat testColor2(cv::Size(testColor.cols / 2, testColor.rows / 2), CV_8UC4);
@@ -31,6 +32,20 @@ int main(int argc, char** argv) {
 		//const cv::Mat testInfrared = theKinect2.getInfraredVisulizedImage();
 
 		//const cv::Mat testBodyIndex = theKinect2.getBodyIndexVisualizedImage();
+
+		vector< Kinect2::Body > bodies = theKinect2.getBodyFrame().getBodies();
+		for (auto bodiesIter = bodies.begin(); bodiesIter != bodies.end(); bodiesIter++) {
+			auto joints = bodiesIter->getJointMap();
+
+			if (bodiesIter->isTracked() == true) {
+				cout << "> User ID: " << (int)bodiesIter->getIndex() << endl
+					 << "  Confidence: " << bodiesIter->calcConfidence() << endl
+					 << "  TrackedTime: " << (long long)bodiesIter->getTrackedTime() << endl
+					 << "  SpineMid, x:" << joints[JointType_SpineMid].getPosition()[0] << endl
+					 << "            y:" << joints[JointType_SpineMid].getPosition()[1] << endl
+					 << "            z:" << joints[JointType_SpineMid].getPosition()[2] << endl << endl;
+			}
+		}
 
 		cv::imshow("TEST COLOR", testColor2);
 		//cv::imshow("TEST DEPTH", testDepth);

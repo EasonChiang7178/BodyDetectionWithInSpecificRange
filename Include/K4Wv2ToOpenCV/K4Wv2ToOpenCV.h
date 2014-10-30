@@ -140,7 +140,7 @@ namespace Kinect2 {
 	public:
 		/* Initialization Function Set */
 			// Constructor with Singleton Pattern
-		static K4Wv2ToOpenCV& GetDefaultKinectSensor();
+		static K4Wv2ToOpenCV& getDefaultKinectSensor();
 			//
 		const bool initializeColorStream(ColorImageFormat colorFormat = ColorImageFormat_Bgra);
 			//
@@ -182,6 +182,8 @@ namespace Kinect2 {
 			// Body Index
 		const cv::Mat& getBodyIndexRawImage() const;
 		const cv::Mat& getBodyIndexVisualizedImage();
+			// Body
+		const BodyFrame& getBodyFrame() const;
 
 		/* Kinect Behavior Checking Set */
 		const bool isKinectOpened();

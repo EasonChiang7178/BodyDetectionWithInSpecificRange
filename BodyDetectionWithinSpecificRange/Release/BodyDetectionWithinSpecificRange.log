@@ -1,4 +1,5 @@
-﻿  BodyDetection.cpp
+﻿  BodyDetectionMain.cpp
+  BodyDetection.cpp
   Generating code
   Finished generating code
   BodyDetectionWithinSpecificRange.vcxproj -> C:\Users\Chiang\Documents\GitHub\BodyDetectionWithinSpecificRange\\Bin\Release\BodyDetectionWithinSpecificRange.exe

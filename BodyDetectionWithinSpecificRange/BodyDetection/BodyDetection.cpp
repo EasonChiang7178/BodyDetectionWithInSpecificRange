@@ -9,8 +9,8 @@ BodyDetection& BodyDetection::getDefaultKinectSensor() {
 
 BodyDetection::BodyDetection()
 	:K4Wv2ToOpenCV(),
-	 lowerLeftCorner(1.0, 0.75), lowerRightCorner(1.0, -0.75),
-	 upperLeftCorner(2.0, 0.75), upperRightCorner(2.0, -0.75)
+	 lowerLeftCorner(1.0, 0.5), lowerRightCorner(1.0, -0.5),
+	 upperLeftCorner(2.0, 0.5), upperRightCorner(2.0, -0.5)
 {
 	userPosition.resize(BODY_COUNT);
 	userID.resize(BODY_COUNT);

@@ -21,7 +21,7 @@ int main2(int argc, char** argv) {
 
 	do {
 		theKinect2.updataStreamData();
-		theKinect2.drawBodySkeletonInColorImage();
+		theKinect2.drawBodiesInColorImage();
 		//theKinect2.drawBodySkeletonInDepthImage();
 
 		const cv::Mat testColor = theKinect2.getColorImage();

@@ -100,6 +100,8 @@ namespace Kinect2 {
 
 		const long long 								getTrackedTime() const;
 		
+		void											setIndex(const int new_index);
+
 	protected:
 		unsigned long long								id;
 		unsigned char									index;
@@ -167,8 +169,9 @@ namespace Kinect2 {
 			// To retrieve the data from initialized streams
 		const bool updataStreamData();
 
-		void drawBodySkeletonInColorImage();
-		void drawBodySkeletonInDepthImage();
+		void drawBodiesInColorImage();
+		void drawBodiesInDepthImage();
+		const bool drawBodyInColorImage(const int index, cv::Scalar jointColor, cv::Scalar boneColor);
 
 		/* Accessor Set */
 			// Color

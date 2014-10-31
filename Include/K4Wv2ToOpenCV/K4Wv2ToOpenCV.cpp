@@ -199,6 +199,10 @@ namespace Kinect2 {
 		return (this->currentTimeStamp - this->startTimeStamp) / 1000000; // Get millisecond
 	}
 	
+	void Body::setIndex(const int new_index) {
+		index = new_index;
+	}
+
 	Frame::Frame()
 	: timeStamp(0L)
 	{}
@@ -721,47 +725,12 @@ namespace Kinect2 {
 		return true;
 	}
 
-	void K4Wv2ToOpenCV::drawBodySkeletonInColorImage() {
-		for (int detectedBody = 0; detectedBody < BODY_COUNT; detectedBody++) {
-			if (cvBodyFrame.getBodies()[detectedBody].isTracked() == false)
-				continue;
-
-			std::map< JointType, Joint >& cameraJointMap = cvBodyFrame.bodies[detectedBody].jointMap;
-			std::map< JointType, cv::Vec2i > colorJointMap;
-
-			for (auto cameraJointMapIter = cameraJointMap.begin(); cameraJointMapIter != cameraJointMap.end(); cameraJointMapIter++)
-				colorJointMap.insert(std::pair< JointType, cv::Vec2i >(cameraJointMapIter->first, mapCameraToColor(cameraJointMapIter->second.position)));
-
-			/* Draw Lines */
-			for (int i = 0; i < JointType_Count; i++) {
-				cv::Point p1(colorJointMap[skeletonDrawOrder[i].first]);
-				cv::Point p2(colorJointMap[skeletonDrawOrder[i].second]);
-
-				if (p1.x > 0 && p1.y > 0 && p2.x > 0 && p2.y > 0) {
-					TrackingState p1State = cameraJointMap[skeletonDrawOrder[i].first].trackingState;
-					TrackingState p2State = cameraJointMap[skeletonDrawOrder[i].second].trackingState;
-
-					if (p1State == TrackingState_Inferred || p2State == TrackingState_Inferred)
-						cv::line(cvColorMat, cv::Point(colorJointMap[skeletonDrawOrder[i].first]), cv::Point(colorJointMap[skeletonDrawOrder[i].second]), static_cast<cv::Scalar>(this->colorizeBody(detectedBody)), 1, 8);
-					else
-						cv::line(cvColorMat, cv::Point(colorJointMap[skeletonDrawOrder[i].first]), cv::Point(colorJointMap[skeletonDrawOrder[i].second]), static_cast<cv::Scalar>(this->colorizeBody(detectedBody)), 7, CV_AA);
-				}
-			}
-
-			/* Draw Joints */
-			for (auto colorJointMapIter = colorJointMap.begin(); colorJointMapIter != colorJointMap.end(); colorJointMapIter++)
-				if ((colorJointMapIter->second[0] > 0) && (colorJointMapIter->second[0] < cvColorMat.cols) && (colorJointMapIter->second[1] > 0) && (colorJointMapIter->second[1] < cvColorMat.rows)) {
-					TrackingState p = cameraJointMap[colorJointMapIter->first].trackingState;
-
-					if (p == TrackingState_Inferred)
-						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 3, cv::Scalar(255, 102, 187), CV_FILLED, CV_AA);
-					else if (p == TrackingState_Tracked)
-						cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 8, cv::Scalar(255, 0, 127), CV_FILLED, CV_AA);
-				}
-		}
+	void K4Wv2ToOpenCV::drawBodiesInColorImage() {
+		for (int detectedBody = 0; detectedBody < BODY_COUNT; detectedBody++)
+			this->drawBodyInColorImage(detectedBody, static_cast<cv::Scalar>(this->colorizeBody(detectedBody)), static_cast<cv::Scalar>(this->colorizeBody(detectedBody)));
 	}
 
-	void K4Wv2ToOpenCV::drawBodySkeletonInDepthImage() {
+	void K4Wv2ToOpenCV::drawBodiesInDepthImage() {
 		for (int detectedBody = 0; detectedBody < BODY_COUNT; detectedBody++) {
 			if (cvBodyFrame.getBodies()[detectedBody].isTracked() == false)
 				continue;
@@ -774,6 +743,7 @@ namespace Kinect2 {
 
 			/* Draw Lines */
 			for (int i = 0; i < JointType_Count; i++) {
+
 				cv::Point p1(depthJointMap[skeletonDrawOrder[i].first]);
 				cv::Point p2(depthJointMap[skeletonDrawOrder[i].second]);
 
@@ -799,6 +769,46 @@ namespace Kinect2 {
 					cv::circle(cvDepthMat, cv::Point(depthJointMapIter->second), 8, cv::Scalar(255, 0, 127), CV_FILLED, CV_AA);
 				}
 		}
+	}
+
+	const bool K4Wv2ToOpenCV::drawBodyInColorImage(const int index, cv::Scalar jointColor, cv::Scalar boneColor) {
+		if (cvBodyFrame.getBodies()[index].isTracked() == false)
+			return false;
+
+		std::map< JointType, Joint >& cameraJointMap = cvBodyFrame.bodies[index].jointMap;
+		std::map< JointType, cv::Vec2i > colorJointMap;
+
+		for (auto cameraJointMapIter = cameraJointMap.begin(); cameraJointMapIter != cameraJointMap.end(); cameraJointMapIter++)
+			colorJointMap.insert(std::pair< JointType, cv::Vec2i >(cameraJointMapIter->first, mapCameraToColor(cameraJointMapIter->second.position)));
+
+		/* Draw Lines */
+		for (int i = 0; i < JointType_Count; i++) {
+			cv::Point p1(colorJointMap[skeletonDrawOrder[i].first]);
+			cv::Point p2(colorJointMap[skeletonDrawOrder[i].second]);
+
+			if (p1.x > 0 && p1.y > 0 && p2.x > 0 && p2.y > 0) {
+				TrackingState p1State = cameraJointMap[skeletonDrawOrder[i].first].trackingState;
+				TrackingState p2State = cameraJointMap[skeletonDrawOrder[i].second].trackingState;
+
+				if (p1State == TrackingState_Inferred || p2State == TrackingState_Inferred)
+					cv::line(cvColorMat, cv::Point(colorJointMap[skeletonDrawOrder[i].first]), cv::Point(colorJointMap[skeletonDrawOrder[i].second]), boneColor, 1, 8);
+				else
+					cv::line(cvColorMat, cv::Point(colorJointMap[skeletonDrawOrder[i].first]), cv::Point(colorJointMap[skeletonDrawOrder[i].second]), boneColor, 7, CV_AA);
+			}
+		}
+
+		/* Draw Joints */
+		for (auto colorJointMapIter = colorJointMap.begin(); colorJointMapIter != colorJointMap.end(); colorJointMapIter++)
+			if ((colorJointMapIter->second[0] > 0) && (colorJointMapIter->second[0] < cvColorMat.cols) && (colorJointMapIter->second[1] > 0) && (colorJointMapIter->second[1] < cvColorMat.rows)) {
+			TrackingState p = cameraJointMap[colorJointMapIter->first].trackingState;
+
+			if (p == TrackingState_Inferred)
+				cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 3, jointColor, 3, CV_AA);
+			else if (p == TrackingState_Tracked)
+				cv::circle(cvColorMat, cv::Point(colorJointMapIter->second), 8, jointColor, 8, CV_AA);
+			}
+
+		return true;
 	}
 
 	//-------------------------------------------------//

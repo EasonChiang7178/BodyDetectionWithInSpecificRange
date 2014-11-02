@@ -1,7 +1,14 @@
-﻿  BodyDetectionMain.cpp
-  BodyDetection.cpp
-  Generating code
-  Finished generating code
-  BodyDetectionWithinSpecificRange.vcxproj -> C:\Users\Chiang\Documents\GitHub\BodyDetectionWithinSpecificRange\\Bin\Release\BodyDetectionWithinSpecificRange.exe
-  ..\Libs\KCBv2Lib\x86\Release\KCBv2.dll
-  1 個のファイルをコピーしました
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(942,5): warning MSB8027: Two or more files with the name of Exceptions.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are ..\Include\K4Wv2ToOpenCV\Exceptions.cpp, ..\Include\TCPClient\Exceptions.cpp.
+  Exceptions.cpp
+  TCPConnector.cpp
+  TCPStream.cpp
+  main_BodyDetection.cpp
+Release\Exceptions.obj : warning LNK4042: object specified more than once; extras ignored
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: virtual char const * __thiscall Kinect2::ExecuteStreamManipulationFailed::what(void)const " (?what@ExecuteStreamManipulationFailed@Kinect2@@UBEPBDXZ)
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: __thiscall Kinect2::ExecuteStreamManipulationFailed::ExecuteStreamManipulationFailed(long,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0ExecuteStreamManipulationFailed@Kinect2@@QAE@JV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: virtual char const * __thiscall Kinect2::ExecuteSensorOpenFailed::what(void)const " (?what@ExecuteSensorOpenFailed@Kinect2@@UBEPBDXZ)
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: virtual char const * __thiscall Kinect2::FrameDataPendingFailed::what(void)const " (?what@FrameDataPendingFailed@Kinect2@@UBEPBDXZ)
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: __thiscall Kinect2::FrameDataPendingFailed::FrameDataPendingFailed(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0FrameDataPendingFailed@Kinect2@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: virtual char const * __thiscall Kinect2::ExecuteSensorCloseFailed::what(void)const " (?what@ExecuteSensorCloseFailed@Kinect2@@UBEPBDXZ)
+K4Wv2ToOpenCV.obj : error LNK2001: unresolved external symbol "public: __thiscall Kinect2::ExecuteSensorCloseFailed::ExecuteSensorCloseFailed(long)" (??0ExecuteSensorCloseFailed@Kinect2@@QAE@J@Z)
+C:\Users\Chiang\Documents\GitHub\BodyDetectionWithinSpecificRange\\Bin\Release\BodyDetectionWithinSpecificRange.exe : fatal error LNK1120: 7 unresolved externals

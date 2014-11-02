@@ -12,7 +12,7 @@
 	// OpenCV
 #include <opencv2/opencv.hpp>
 
-#include "Exceptions.h"
+#include "Kinect2Exceptions.h"
 
 namespace Kinect2 {
 	/* Utility Function Set */

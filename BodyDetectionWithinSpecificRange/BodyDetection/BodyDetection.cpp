@@ -8,14 +8,17 @@ BodyDetection& BodyDetection::getDefaultKinectSensor() {
 }
 
 BodyDetection::BodyDetection()
-	:K4Wv2ToOpenCV(),
-	 lowerLeftCorner(1.0, 0.5), lowerRightCorner(1.0, -0.5),
-	 upperLeftCorner(2.0, 0.5), upperRightCorner(2.0, -0.5)
+	:K4Wv2ToOpenCV()
 {
 	userPosition.resize(BODY_COUNT);
 	userID.resize(BODY_COUNT);
 	userInRegion.resize(BODY_COUNT);
 	//userWavingHand.resize(BODY_COUNT);
+
+	//this->streams.resize(0);
+	messagesToSend.resize(0);
+
+	this->setRegion();
 }
 
 void BodyDetection::checkAllBodiesInRegion() {
@@ -67,6 +70,37 @@ const std::vector< unsigned long long >& BodyDetection::getUsersID() const {
 
 const std::vector< bool >& BodyDetection::isUsersInRegion() const {
 	return userInRegion;
+}
+
+const std::vector< bodyDetectedMessage >& BodyDetection::getMessagesToSend() const {
+	return messagesToSend;
+}
+
+const bool BodyDetection::setRegion(cv::Vec2f upperLeft, cv::Vec2f upperRight,
+									cv::Vec2f lowerRight, cv::Vec2f lowerLeft) {
+	this->upperLeftCorner = upperLeft;
+	this->upperRightCorner = upperRight;
+	this->lowerLeftCorner = lowerLeft;
+	this->lowerRightCorner = lowerRight;
+
+	return true;
+}
+
+const bool BodyDetection::connectTo(const int& port, const std::string& serverAddress) {
+	TCPStream stream = this->connector.connect(port, serverAddress);
+	streams.push_back(stream);
+	return true;
+}
+
+const bool BodyDetection::sendMessage() {
+		// Feed the data into messagesToSend vector
+	this->prepareMessageToSend();
+
+	for (vector< TCPStream >::iterator streamsIter = streams.begin(); streamsIter != streams.end(); streamsIter++) {
+		streamsIter->addMessages(messagesToSend);
+		streamsIter->send();
+	}
+	return true;
 }
 
 const bool BodyDetection::drawRegionInColorImage(cv::Scalar regionColor) {
@@ -158,6 +192,22 @@ void BodyDetection::prepareDrawRectangularRegion(const float yAxisUpperOffset, c
 	lrColorPointCell = this->mapCameraToColor(lowerRightCorner3dCell);
 }
 
+void BodyDetection::prepareMessageToSend() {
+	messagesToSend.clear();
+	messagesToSend.resize(0);
+
+	for (int index = 0; index < BODY_COUNT; index++) {
+		if (cvBodyFrame.getBodies()[index].isTracked() == false)
+			continue;
+		
+		bodyDetectedMessage tempMessage;
+		tempMessage.userID = this->userID[index];
+		tempMessage.detectedBody = this->userInRegion[index];
+
+		messagesToSend.push_back(tempMessage);
+	}
+}
+
 const cv::Vec3f BodyDetection::extractUserPositionWithUpperBodyAverage(const int bodyIndex) {
 	cv::Vec3f headPoint = this->getUserSkeletonPosition(bodyIndex, JointType_Head);
 	cv::Vec3f spineShoulderPoint = this->getUserSkeletonPosition(bodyIndex, JointType_SpineShoulder);
@@ -175,4 +225,17 @@ const cv::Vec3f BodyDetection::extractUserPositionWithUpperBodyAverage(const int
 const cv::Vec3f BodyDetection::getUserSkeletonPosition(const int bodyIndex, const JointType jointName) {
 	auto userJoints = cvBodyFrame.getBodies()[bodyIndex].getJointMap();
 	return userJoints[jointName].getPosition();
+}
+
+void bodyDetectedMessage::makeMessage() {
+	std::string space = " ";
+
+	std::stringstream ss;
+	std::string userIDstr;
+	ss << this->userID; ss >> userIDstr;
+
+	std::string userInRegionFlag = "false";
+	if (this->detectedBody = true)
+		userInRegionFlag = "true";
+	this->messageToSend = userIDstr + space + userInRegionFlag;
 }

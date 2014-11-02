@@ -25,12 +25,15 @@
     <Filter Include="Source Files\BodyDetection">
       <UniqueIdentifier>{fa4b27cb-c9d1-4ac8-897e-71de2ca11960}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\TCPClient">
+      <UniqueIdentifier>{1b838c19-cebb-4085-b01b-346c84fe5328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TCPClient">
+      <UniqueIdentifier>{467fbe07-cff9-4fb9-82e4-4a7e653b00ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp">
-      <Filter>Source Files\K4Wv2ToOpenCV</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Include\K4Wv2ToOpenCV\Exceptions.cpp">
       <Filter>Source Files\K4Wv2ToOpenCV</Filter>
     </ClCompile>
     <ClCompile Include="BodyDetection\BodyDetection.cpp">
@@ -39,19 +42,40 @@
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BodyDetectionMain.cpp">
+    <ClCompile Include="..\Include\TCPClient\TCPConnector.cpp">
+      <Filter>Source Files\TCPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\TCPClient\TCPStream.cpp">
+      <Filter>Source Files\TCPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="main_BodyDetection.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\K4Wv2ToOpenCV\Kinect2Exceptions.cpp">
+      <Filter>Source Files\K4Wv2ToOpenCV</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\TCPClient\TCPExceptions.cpp">
+      <Filter>Source Files\TCPClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.h">
       <Filter>Header Files\K4Wv2ToOpenCV</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\K4Wv2ToOpenCV\Exceptions.h">
-      <Filter>Header Files\K4Wv2ToOpenCV</Filter>
-    </ClInclude>
     <ClInclude Include="BodyDetection\BodyDetection.h">
       <Filter>Header Files\BodyDetection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\TCPClient\TCPConnector.h">
+      <Filter>Header Files\TCPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\TCPClient\TCPStream.h">
+      <Filter>Header Files\TCPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\K4Wv2ToOpenCV\Kinect2Exceptions.h">
+      <Filter>Header Files\K4Wv2ToOpenCV</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\TCPClient\TCPExceptions.h">
+      <Filter>Header Files\TCPClient</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

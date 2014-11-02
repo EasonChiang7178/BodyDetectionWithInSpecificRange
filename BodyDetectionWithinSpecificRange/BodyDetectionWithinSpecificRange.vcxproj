@@ -57,24 +57,28 @@
     <Import Project="..\PropertySheets\OpenCV.props" />
     <Import Project="..\PropertySheets\Kinect2ForWindows.props" />
     <Import Project="..\PropertySheets\KCBv2Lib.props" />
+    <Import Project="..\PropertySheets\WinSockets2.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheets\OpenCV.props" />
     <Import Project="..\PropertySheets\Kinect2ForWindows.props" />
     <Import Project="..\PropertySheets\KCBv2Lib.props" />
+    <Import Project="..\PropertySheets\WinSockets2.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheets\OpenCV.props" />
     <Import Project="..\PropertySheets\Kinect2ForWindows.props" />
     <Import Project="..\PropertySheets\KCBv2Lib.props" />
+    <Import Project="..\PropertySheets\WinSockets2.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PropertySheets\OpenCV.props" />
     <Import Project="..\PropertySheets\Kinect2ForWindows.props" />
     <Import Project="..\PropertySheets\KCBv2Lib.props" />
+    <Import Project="..\PropertySheets\WinSockets2.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -145,15 +149,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Include\K4Wv2ToOpenCV\Exceptions.cpp" />
+    <ClCompile Include="..\Include\K4Wv2ToOpenCV\Kinect2Exceptions.cpp" />
     <ClCompile Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.cpp" />
-    <ClCompile Include="BodyDetectionMain.cpp" />
+    <ClCompile Include="..\Include\TCPClient\TCPExceptions.cpp" />
+    <ClCompile Include="..\Include\TCPClient\TCPConnector.cpp" />
+    <ClCompile Include="..\Include\TCPClient\TCPStream.cpp" />
+    <ClCompile Include="main_BodyDetection.cpp" />
     <ClCompile Include="BodyDetection\BodyDetection.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Include\K4Wv2ToOpenCV\Exceptions.h" />
+    <ClInclude Include="..\Include\K4Wv2ToOpenCV\Kinect2Exceptions.h" />
     <ClInclude Include="..\Include\K4Wv2ToOpenCV\K4Wv2ToOpenCV.h" />
+    <ClInclude Include="..\Include\TCPClient\TCPExceptions.h" />
+    <ClInclude Include="..\Include\TCPClient\TCPConnector.h" />
+    <ClInclude Include="..\Include\TCPClient\TCPStream.h" />
     <ClInclude Include="BodyDetection\BodyDetection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

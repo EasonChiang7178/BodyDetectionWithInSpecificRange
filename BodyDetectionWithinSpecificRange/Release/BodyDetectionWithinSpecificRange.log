@@ -1,11 +1,4 @@
-﻿  Kinect2Exceptions.cpp
-  K4Wv2ToOpenCV.cpp
-  TCPExceptions.cpp
-  TCPConnector.cpp
-  TCPStream.cpp
-  main_BodyDetection.cpp
-  BodyDetection.cpp
-  test.cpp
+﻿  main_BodyDetection.cpp
   Generating code
   Finished generating code
   BodyDetectionWithinSpecificRange.vcxproj -> C:\Users\Chiang\Documents\GitHub\BodyDetectionWithinSpecificRange\\Bin\Release\BodyDetectionWithinSpecificRange.exe

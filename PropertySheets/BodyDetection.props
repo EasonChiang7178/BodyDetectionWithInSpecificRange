@@ -6,28 +6,28 @@
   <!-- Debug|Win32 -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /e /y /i /r</Command>
+      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   
   <!-- Release|Win32 -->  
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /e /y /i /r</Command>
+      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   
   <!-- Debug|x64 -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /e /y /i /r</Command>
+      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   
   <!-- Release|x64 -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /e /y /i /r</Command>
+      <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
 </Project>

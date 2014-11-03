@@ -26,7 +26,7 @@ void BodyDetection::checkAllBodiesInRegion() {
 		this->extractUserPositionWithUpperBodyAverage(bodyIndex);
 		userInRegion[bodyIndex] = this->checkBodyInRectangularRegion(bodyIndex, userPosition[bodyIndex]);
 
-		if (userInRegion[bodyIndex] == true)
+		if (cvBodyFrame.getBodies()[bodyIndex].isTracked() == true)
 			userID[bodyIndex] = cvBodyFrame.getBodies()[bodyIndex].getId();
 	}
 		// Feed the data into messagesToSend vector

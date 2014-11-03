@@ -12,7 +12,6 @@ public:
 
 private:
 	std::string		error_info;
-	int				error_code;
 };
 
 class CreateSocketFailed : public std::exception {

@@ -227,7 +227,6 @@ namespace Kinect2 {
 		KCBDepthFrame*		kcbDepthFrame;
 		KCBInfraredFrame*	kcbInfraredFrame;
 		KCBBodyIndexFrame*	kcbBodyIndexFrame;
-		//KCBBodyFrame*		kcbBodyFrame;
 		KCBAudioFrame*		kcbAudioFrame; //TODO
 
 		/* Interface to OpenCV */

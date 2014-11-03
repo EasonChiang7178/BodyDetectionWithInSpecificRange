@@ -4,7 +4,7 @@
 
 #include "BodyDetection\BodyDetection.h"
 
-//#define SHOW_INFO
+#define SHOW_INFO
 
 using namespace Kinect2;
 using namespace std;
@@ -82,8 +82,7 @@ int main(int argc, char** argv) {
 
 	try {
 		bodyDetector.connectTo(Port, IPAddress);
-	}
-	catch (exception& e) {
+	} catch (exception& e) {
 		cerr << "> [ERROR] " << e.what() << " in " << IPAddress << ":" << Port << endl
 			 << "                   (Executing offline...)" << endl
 			 << "                   (Please press enter to continue)" << endl;
@@ -93,7 +92,12 @@ int main(int argc, char** argv) {
 		pause = getchar();
 	}
 
-	cout << "> [INFO] Please press ''q'' or ''Esc'' to exit" << endl;
+	cout << "\n> [INFO] Please press ''q'' or ''Esc'' to exit" << endl;
+
+	//float fps = 0.0f;
+	//unsigned int calcCounter = 0;
+	//int64 startTime = cv::getTickCount() , currentTime = 0L;
+
 	char checkExit = '\0';
 	do {
 		bodyDetector.updataStreamData();
@@ -151,6 +155,11 @@ int main(int argc, char** argv) {
 		const cv::Mat rawColorImg = bodyDetector.getColorImage();
 		cv::Mat bodyDetectionColorImg(cv::Size(rawColorImg.cols / 2, rawColorImg.rows / 2), CV_8UC4);
 		cv::resize(rawColorImg, bodyDetectionColorImg, cv::Size(), 0.5, 0.5);
+
+		//currentTime = cv::getTickCount();
+		//fps = ++calcCounter / (currentTime - startTime) * f;
+
+		//cout << "FPS: " << fps << endl;
 
 		cv::imshow("Body Detction", bodyDetectionColorImg);
 		checkExit = cv::waitKey(1);

@@ -230,7 +230,9 @@ const cv::Vec3f BodyDetection::getUserSkeletonPosition(const int bodyIndex, cons
 }
 
 void bodyDetectedMessage::makeMessage() {
+	std::string header = "KINECT2";
 	std::string space = " ";
+	std::string newline = "\n";
 
 	std::stringstream ss;
 	std::string userIDstr;
@@ -239,5 +241,5 @@ void bodyDetectedMessage::makeMessage() {
 	std::string userInRegionFlag = "false";
 	if (this->detectedBody == true)
 		userInRegionFlag = "true";
-	this->messageToSend = userIDstr + space + userInRegionFlag;
+	this->messageToSend = header + space + userIDstr + space + userInRegionFlag + newline;
 }

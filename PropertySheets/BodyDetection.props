@@ -8,9 +8,13 @@
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
     </PostBuildEvent>
+	
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
   
-  <!-- Release|Win32 -->  
+  <!-- Release|Win32 -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
@@ -22,6 +26,10 @@
     <PostBuildEvent>
       <Command>xcopy "$(ProjectDir)BodyDetection.cfg" "$(OutDir)" /y /i /r</Command>
     </PostBuildEvent>
+	
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
   
   <!-- Release|x64 -->

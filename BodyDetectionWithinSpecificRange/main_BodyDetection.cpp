@@ -4,8 +4,6 @@
 
 #include "BodyDetection\BodyDetection.h"
 
-#define SHOW_INFO
-
 using namespace Kinect2;
 using namespace std;
 
@@ -112,20 +110,16 @@ int main(int argc, char** argv) {
 		if (connectToServer == true)
 			bodyDetector.sendMessage();
 
-#ifdef SHOW_INFO
+#ifdef _DEBUG
 		vector< bodyDetectedMessage > messagesSent = bodyDetector.getMessagesToSend();
 		if (messagesSent.size() != 0) {
 
-			//std::cout << "========== Message sent ==========" << endl;
-			//for (auto messageIter = messagesSent.begin(); messageIter != messagesSent.end(); messageIter++) {
-			//	std::cout << "> User ID:     " << messageIter->userID << endl
-			//		 << "  isInRegion:  " << messageIter->detectedBody << endl << endl;
-			//}
-			//std::cout << "========== Message sent ==========" << endl;
-
+			for (auto messageIter = messagesSent.begin(); messageIter != messagesSent.end(); messageIter++)
+				std::cout << "> [Message Sent]: " << messageIter->getMessage() << endl;
+			
 			std::cout << endl;
 
-			std::cout << "============== Info ==============" << endl;
+			std::cout << "\t\t[User Information]" << endl;
 			vector< cv::Vec3f > userPosition = bodyDetector.getUsersPosition();
 			vector< bool > userInRegion = bodyDetector.isUsersInRegion();
 			vector< Kinect2::Body > bodies = bodyDetector.getBodyFrame().getBodies();
@@ -133,7 +127,7 @@ int main(int argc, char** argv) {
 				auto joints = bodiesIter->getJointMap();
 
 				if (bodiesIter->isTracked() == true) {
-					std::cout << "> Index:       " << bodiesIter->getIndex() << endl
+					std::cout << "> Index:       " << static_cast< unsigned short>(bodiesIter->getIndex()) << endl
 							  << "  User ID:     " << bodiesIter->getId() << endl
 							  << "  Confidence:  " << bodiesIter->calcConfidence() << endl
 							  << "  TrackedTime: " << (long long)bodiesIter->getTrackedTime() << endl

@@ -8,6 +8,7 @@ using namespace Kinect2;
 using namespace std;
 
 string pathToConfig = "BodyDetection.cfg";
+bool connectToServer = true;
 
 int main(int argc, char** argv) {
 	cv::setUseOptimized(true);
@@ -23,7 +24,7 @@ int main(int argc, char** argv) {
 	
 	string IPAddress;
 	unsigned int Port;
-	double upperRightX, upperRightY,
+	float upperRightX, upperRightY,
 		   upperLeftX, upperLeftY,
 		   lowerRightX, lowerRightY,
 		   lowerLeftX, lowerLeftY;
@@ -75,7 +76,18 @@ int main(int argc, char** argv) {
 	bodyDetector.initializeColorStream();
 	bodyDetector.initializeBodyStream();
 
-	bodyDetector.connectTo(Port, IPAddress);
+	try {
+		bodyDetector.connectTo(Port, IPAddress);
+	}
+	catch (exception& e) {
+		cerr << "> [ERROR] " << e.what() << " In " << IPAddress << ":" << Port << endl
+			 << "                   (Executing offline...)" << endl
+			 << "                   (Please press enter to continue)" << endl;
+		connectToServer = false;
+
+		char pause;
+		pause = getchar();
+	}
 
 	do {
 		bodyDetector.updataStreamData();
@@ -86,11 +98,12 @@ int main(int argc, char** argv) {
 		bodyDetector.drawBodiesInRegion();
 		bodyDetector.drawUserPosition();
 		
-		const cv::Mat testColor = bodyDetector.getColorImage();
-		cv::Mat testColor2(cv::Size(testColor.cols / 2, testColor.rows / 2), CV_8UC4);
-		cv::resize(testColor, testColor2, cv::Size(), 0.5, 0.5);
+		const cv::Mat rawColorImg = bodyDetector.getColorImage();
+		cv::Mat bodyDetectionColorImg(cv::Size(rawColorImg.cols / 2, rawColorImg.rows / 2), CV_8UC4);
+		cv::resize(rawColorImg, bodyDetectionColorImg, cv::Size(), 0.5, 0.5);
 
-		bodyDetector.sendMessage();
+		if (connectToServer == true)
+			bodyDetector.sendMessage();
 
 		vector< bodyDetectedMessage > messagesSent = bodyDetector.getMessagesToSend();
 		for (auto messageIter = messagesSent.begin(); messageIter != messagesSent.end(); messageIter++) {
@@ -118,8 +131,8 @@ int main(int argc, char** argv) {
 		//	}
 		//}
 
-		cv::imshow("TEST COLOR", testColor2);
-	} while (cv::waitKey(1) != 'q');
+		cv::imshow("Body Detction", bodyDetectionColorImg);
+	} while (cv::waitKey(1) != 27);
 
 	bodyDetector.closeKinectSensor();
 

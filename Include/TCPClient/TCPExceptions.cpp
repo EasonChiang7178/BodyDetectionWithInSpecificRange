@@ -10,7 +10,7 @@ const char* ExecuteWinSocketFailed::what() const {
 	std::stringstream ss;
 	ss << error_code; ss >> error_code_str;
 
-	return (error_info + " (Error code:" + error_code_str + ")").c_str();
+	return (error_info + " (Error code:" + error_code_str + ")\0").c_str();
 }
 
 const char* CreateSocketFailed::what() const {

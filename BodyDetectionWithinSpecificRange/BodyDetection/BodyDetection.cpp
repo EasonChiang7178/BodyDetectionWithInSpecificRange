@@ -25,7 +25,12 @@ void BodyDetection::checkAllBodiesInRegion() {
 	for (unsigned char bodyIndex = 0; bodyIndex < BODY_COUNT; bodyIndex++) {
 		this->extractUserPositionWithUpperBodyAverage(bodyIndex);
 		userInRegion[bodyIndex] = this->checkBodyInRectangularRegion(bodyIndex, userPosition[bodyIndex]);
+
+		if (userInRegion[bodyIndex] == true)
+			userID[bodyIndex] = cvBodyFrame.getBodies()[bodyIndex].getId();
 	}
+		// Feed the data into messagesToSend vector
+	this->prepareMessageToSend();
 }
 
 
@@ -87,15 +92,12 @@ const bool BodyDetection::setRegion(cv::Vec2f upperLeft, cv::Vec2f upperRight,
 }
 
 const bool BodyDetection::connectTo(const int& port, const std::string& serverAddress) {
-	TCPStream stream = this->connector.connect(port, serverAddress);
+	TCPStream& stream = this->connector.connect(port, serverAddress);
 	streams.push_back(stream);
 	return true;
 }
 
 const bool BodyDetection::sendMessage() {
-		// Feed the data into messagesToSend vector
-	this->prepareMessageToSend();
-
 	for (vector< TCPStream >::iterator streamsIter = streams.begin(); streamsIter != streams.end(); streamsIter++) {
 		streamsIter->addMessages(messagesToSend);
 		streamsIter->send();
@@ -235,7 +237,7 @@ void bodyDetectedMessage::makeMessage() {
 	ss << this->userID; ss >> userIDstr;
 
 	std::string userInRegionFlag = "false";
-	if (this->detectedBody = true)
+	if (this->detectedBody == true)
 		userInRegionFlag = "true";
 	this->messageToSend = userIDstr + space + userInRegionFlag;
 }

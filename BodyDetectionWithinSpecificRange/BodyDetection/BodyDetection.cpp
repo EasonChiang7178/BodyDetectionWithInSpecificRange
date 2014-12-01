@@ -201,9 +201,9 @@ const bool BodyDetection::drawUserPoint(const int bodyIndex, cv::Scalar pointCol
 
 void BodyDetection::prepareDrawRectangularRegion(const float yAxisUpperOffset, const float yAxisLowerOffset) {
 	cv::Vec3f upperLeftCorner3d(upperLeftCorner[1], yAxisUpperOffset, upperLeftCorner[0]),
-		upperRightCorner3d(upperRightCorner[1], yAxisUpperOffset, upperRightCorner[0]),
-		lowerLeftCorner3d(lowerLeftCorner[1], yAxisLowerOffset, lowerLeftCorner[0]),
-		lowerRightCorner3d(lowerRightCorner[1], yAxisLowerOffset, lowerRightCorner[0]),
+			  upperRightCorner3d(upperRightCorner[1], yAxisUpperOffset, upperRightCorner[0]),
+			  lowerLeftCorner3d(lowerLeftCorner[1], yAxisLowerOffset, lowerLeftCorner[0]),
+			  lowerRightCorner3d(lowerRightCorner[1], yAxisLowerOffset, lowerRightCorner[0]),
 			  upperLeftCorner3dCeil(upperLeftCorner[1], yAxisUpperOffset + 0.7f, upperLeftCorner[0]),
 			  upperRightCorner3dCeil(upperRightCorner[1], yAxisUpperOffset + 0.7f, upperRightCorner[0]),
 			  lowerLeftCorner3dCeil(lowerLeftCorner[1], yAxisLowerOffset + 0.7f, lowerLeftCorner[0]),

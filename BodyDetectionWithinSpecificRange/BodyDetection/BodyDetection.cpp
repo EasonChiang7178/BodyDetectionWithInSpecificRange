@@ -310,3 +310,7 @@ void bodyDetectedMessage::makeMessage() {
 	this->messageToSend = header + space + userIDstr + space + userInRegionFlag + space + 
 		                  xPosition + space + yPosition + space + zPosition + newline;
 }
+
+void BodyDetection::closeKinectSensor() {
+	this->~BodyDetection();
+}

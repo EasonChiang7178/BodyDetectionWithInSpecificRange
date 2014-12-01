@@ -160,7 +160,7 @@ namespace Kinect2 {
 			//TODO
 		const bool initializeMultiStream();
 			// Renamed deconstructor, which used to release all the resource and close the sensor
-		void closeKinectSensor();
+		virtual void closeKinectSensor();
 
 		/* Configuration function Set */
 		const bool setTryToReadingDataTimes(const unsigned short times = 2000);

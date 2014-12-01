@@ -30,6 +30,9 @@ public:
 		// Constructor with Singleton Pattern
 	static BodyDetection& getDefaultKinectSensor();
 	
+		// Renamed deconstructor, which used to release all the resource and close the sensor
+	virtual void closeKinectSensor();
+
 	void checkAllBodiesInRegion();
 
 	/* Accessor Set */

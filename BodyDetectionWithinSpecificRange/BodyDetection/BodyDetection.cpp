@@ -23,8 +23,10 @@ BodyDetection::BodyDetection()
 
 BodyDetection::~BodyDetection() {
 		// Release all the connections
-	for (vector< TCPStream* >::iterator streamIter = streams.begin(); streamIter != streams.end(); streamIter++)
-		delete *streamIter;
+	for (size_t connectionIndex = 0; connectionIndex < streams.size(); connectionIndex++)
+		delete streams[connectionIndex];
+	streams.resize(0);
+	streams.clear();
 }
 
 void BodyDetection::checkAllBodiesInRegion() {

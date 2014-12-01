@@ -211,7 +211,7 @@ namespace Kinect2 {
 		void operator=(K4Wv2ToOpenCV const& that);	// Not implement
 
 			// Deconstructor
-		~K4Wv2ToOpenCV();
+		virtual ~K4Wv2ToOpenCV();
 
 		/* Configuration for Kinect for Windows To OpenCV */
 		unsigned short	tryToReadDataTimes;

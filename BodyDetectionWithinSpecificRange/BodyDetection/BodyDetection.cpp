@@ -21,6 +21,12 @@ BodyDetection::BodyDetection()
 	this->setRegion();
 }
 
+BodyDetection::~BodyDetection() {
+		// Release all the connections
+	for (vector< TCPStream* >::iterator streamIter = streams.begin(); streamIter != streams.end(); streamIter++)
+		delete *streamIter;
+}
+
 void BodyDetection::checkAllBodiesInRegion() {
 	for (unsigned char bodyIndex = 0; bodyIndex < BODY_COUNT; bodyIndex++) {
 		this->extractUserPositionWithUpperBodyAverage(bodyIndex);
@@ -92,15 +98,15 @@ const bool BodyDetection::setRegion(cv::Vec2f upperLeft, cv::Vec2f upperRight,
 }
 
 const bool BodyDetection::connectTo(const int& port, const std::string& serverAddress) {
-	TCPStream& stream = this->connector.connect(port, serverAddress);
+	TCPStream* stream = this->connector.connect(port, serverAddress);
 	streams.push_back(stream);
 	return true;
 }
 
 const bool BodyDetection::sendMessage() {
-	for (vector< TCPStream >::iterator streamsIter = streams.begin(); streamsIter != streams.end(); streamsIter++) {
-		streamsIter->addMessages(messagesToSend);
-		streamsIter->send();
+	for (vector< TCPStream* >::iterator streamsIter = streams.begin(); streamsIter != streams.end(); streamsIter++) {
+		(*streamsIter)->addMessages(messagesToSend);
+		(*streamsIter)->send();
 	}
 	return true;
 }

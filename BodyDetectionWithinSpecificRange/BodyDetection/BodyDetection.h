@@ -61,6 +61,8 @@ protected:
 	BodyDetection(BodyDetection const& that);	// Not implement
 	void operator=(BodyDetection const& that);	// Not implement
 
+	virtual ~BodyDetection();
+
 	/* Region Description for Rectangle Shape */
 		// Index 0 is the Z direction in Kinect Coordinate, and Index 1 is the X direction
 	cv::Vec2f upperRightCorner;
@@ -75,7 +77,7 @@ protected:
 
 	/* Variables for communication */
 	TCPConnector					connector;
-	vector< TCPStream >				streams;
+	vector< TCPStream* >			streams;
 	vector< bodyDetectedMessage >	messagesToSend;
 
 	/* Variables for maintaining the user' states */

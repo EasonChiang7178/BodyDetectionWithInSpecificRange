@@ -26,8 +26,8 @@ int main(int argc, char** argv) {
 		exit(EXIT_FAILURE);
 	}
 	
-	string IPAddress;
-	unsigned int Port;
+	vector< string > IPAddress;
+	vector< unsigned int > Port;
 	float upperRightX, upperRightY,
 		   upperLeftX, upperLeftY,
 		   lowerRightX, lowerRightY,
@@ -44,10 +44,14 @@ int main(int argc, char** argv) {
 
 		stringstream ss;
 
-		if (entryName == "Address")
-			IPAddress = entryValue;
-		else if (entryName == "Port") {
-			ss << entryValue; ss >> Port;
+		if (entryName == "Address") {
+			IPAddress.push_back(entryValue);
+		} else if (entryName == "Port") {
+			unsigned int portBuffer;
+			ss << entryValue; ss >> portBuffer;
+			ss.str(""); ss.clear();
+			Port.push_back(portBuffer);
+
 		} else if (entryName == "UpperLeftCorner_X") {
 			ss << entryValue; ss >> upperLeftX;
 		} else if (entryName == "UpperLeftCorner_Y") {
@@ -81,17 +85,20 @@ int main(int argc, char** argv) {
 	bodyDetector.initializeBodyStream();
 
 #ifdef COMMUICATION
-	try {
-		bodyDetector.connectTo(Port, IPAddress);
-		cout << "> [INFO] Connect to " << IPAddress << " succeed!" << endl;
-	} catch (exception& e) {
-		cerr << "> [ERROR] " << e.what() << " in " << IPAddress << ":" << Port << endl
-			 << "                   (Executing offline...)" << endl
-			 << "                   (Please press enter to continue)" << endl;
-		connectToServer = false;
+	for (size_t serverIndex = 0; serverIndex < IPAddress.size(); serverIndex++) {
+		try {
+			bodyDetector.connectTo(Port[serverIndex], IPAddress[serverIndex]);
+			cout << "> [INFO] Connect to " << IPAddress[serverIndex] << ":" << Port[serverIndex] << " succeed!" << endl;
+		}
+		catch (exception& e) {
+			cerr << "> [ERROR] " << e.what() << " in " << IPAddress[serverIndex] << ":" << Port[serverIndex] << endl
+				<< "                   (Executing offline...)" << endl
+				<< "                   (Please press enter to continue)" << endl;
+			connectToServer = false;
 
-		char pause;
-		pause = getchar();
+			char pause;
+			pause = getchar();
+		}
 	}
 #endif // COMMUICATION
 

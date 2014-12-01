@@ -14,8 +14,8 @@ class TCPConnector {
 public:
 	TCPConnector();
 
-	TCPStream&						connect(const int port = 1000, const std::string IP = "localhost");
-	std::vector< TCPStream >&		connectAll();
+	TCPStream*						connect(const int port = 1000, const std::string IP = "localhost");
+	std::vector< TCPStream* >&		connectAll();
 
 	void addConnection(const int port = 1000, const std::string IP = "localhost");
 	void clearAddressesContainer();

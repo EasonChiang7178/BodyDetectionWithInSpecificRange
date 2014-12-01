@@ -4,7 +4,7 @@ TCPConnector::TCPConnector()
 	: ports(0), IPAddresses(0)
 {}
 
-TCPStream& TCPConnector::connect(const int port, const std::string server) {
+TCPStream* TCPConnector::connect(const int port, const std::string server) {
 	/* Initialize Winsock */
 	WSADATA wsaData;
 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -32,11 +32,11 @@ TCPStream& TCPConnector::connect(const int port, const std::string server) {
 		throw ExecuteWinSocketFailed("Connect to server failed!", iResult);
 
 	TCPStream* tcpStream = new TCPStream(socketDescriptor, &serverAddress);
-	return *tcpStream;
+	return tcpStream;
 }
 
-std::vector< TCPStream >& TCPConnector::connectAll() {
-	std::vector< TCPStream >* connections = new std::vector< TCPStream >();
+std::vector< TCPStream* >& TCPConnector::connectAll() {
+	std::vector< TCPStream* >* connections = new std::vector< TCPStream* >();
 	for (size_t index = 0; index < IPAddresses.size(); index++)
 		connections->push_back(connect(ports[index], IPAddresses[index]));
 

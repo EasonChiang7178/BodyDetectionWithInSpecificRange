@@ -126,13 +126,13 @@ const bool BodyDetection::drawRegionInColorImage(cv::Scalar regionColor) {
 
 	//const int polygonPointsNum[] = { 4 };
 
-	//cv::Mat polyMat(cvColorMat);
+	//cv::Mat polyMat = cvColorMat.clone();
 	//
-	//cv::fillPoly(polyMat, polygonPointsSetptr, polygonPointsNum, 1, cv::Scalar(0, 128, 128), 8);
-	////cv::imshow("test", polyMat);
-	//const double alpha = 0.3;
+	//cv::fillPoly(polyMat, polygonPointsSetptr, polygonPointsNum, 1, cv::Scalar(255, 255, 255), 8);
+
+	//const double alpha = 0.65;
 	//cv::addWeighted(cvColorMat, alpha, polyMat, 1.0 - alpha, 0.0, cvColorMat);
-	
+
 	cv::circle(cvColorMat, cv::Point(ulColorPoint), 5, regionColor, CV_FILLED, CV_AA);
 	cv::circle(cvColorMat, cv::Point(urColorPoint), 5, regionColor, CV_FILLED, CV_AA);
 	cv::circle(cvColorMat, cv::Point(llColorPoint), 5, regionColor, CV_FILLED, CV_AA);

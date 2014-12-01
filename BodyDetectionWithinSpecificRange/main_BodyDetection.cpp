@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 	for (size_t serverIndex = 0; serverIndex < IPAddresses.size(); serverIndex++) {
 		try {
 			bodyDetector.connectTo(Ports[serverIndex], IPAddresses[serverIndex]);
-			cout << "> [INFO] Connect to " << IPAddresses[serverIndex] << ":" << Ports[serverIndex] << " succeed!" << endl;
+			cout << "> [INFO] Connect to " << IPAddresses[serverIndex] << ":" << Ports[serverIndex] << " successfully!" << endl;
 		}
 		catch (exception& e) {
 			cerr << "> [ERROR] " << e.what() << " in " << IPAddresses[serverIndex] << ":" << Ports[serverIndex] << endl

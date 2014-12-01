@@ -108,6 +108,23 @@ const bool BodyDetection::sendMessage() {
 const bool BodyDetection::drawRegionInColorImage(cv::Scalar regionColor) {
 	prepareDrawRectangularRegion();
 
+	//cv::Point polygonPointsSet[1][4];
+	//polygonPointsSet[0][0] = urColorPoint;
+	//polygonPointsSet[0][1] = ulColorPoint;
+	//polygonPointsSet[0][2] = llColorPoint;
+	//polygonPointsSet[0][3] = lrColorPoint;
+
+	//const cv::Point* polygonPointsSetptr[] = { polygonPointsSet[0] };
+
+	//const int polygonPointsNum[] = { 4 };
+
+	//cv::Mat polyMat(cvColorMat);
+	//
+	//cv::fillPoly(polyMat, polygonPointsSetptr, polygonPointsNum, 1, cv::Scalar(0, 128, 128), 8);
+	////cv::imshow("test", polyMat);
+	//const double alpha = 0.3;
+	//cv::addWeighted(cvColorMat, alpha, polyMat, 1.0 - alpha, 0.0, cvColorMat);
+	
 	cv::circle(cvColorMat, cv::Point(ulColorPoint), 5, regionColor, CV_FILLED, CV_AA);
 	cv::circle(cvColorMat, cv::Point(urColorPoint), 5, regionColor, CV_FILLED, CV_AA);
 	cv::circle(cvColorMat, cv::Point(llColorPoint), 5, regionColor, CV_FILLED, CV_AA);
@@ -118,20 +135,20 @@ const bool BodyDetection::drawRegionInColorImage(cv::Scalar regionColor) {
 	cv::line(cvColorMat, cv::Point(urColorPoint), cv::Point(lrColorPoint), regionColor, 3, CV_AA);
 	cv::line(cvColorMat, cv::Point(llColorPoint), cv::Point(lrColorPoint), regionColor, 3, CV_AA);
 
-	cv::circle(cvColorMat, cv::Point(ulColorPointCell), 5, regionColor, CV_FILLED, CV_AA);
-	cv::circle(cvColorMat, cv::Point(urColorPointCell), 5, regionColor, CV_FILLED, CV_AA);
-	cv::circle(cvColorMat, cv::Point(llColorPointCell), 5, regionColor, CV_FILLED, CV_AA);
-	cv::circle(cvColorMat, cv::Point(lrColorPointCell), 5, regionColor, CV_FILLED, CV_AA);
+	cv::circle(cvColorMat, cv::Point(ulColorPointCeil), 5, regionColor, CV_FILLED, CV_AA);
+	cv::circle(cvColorMat, cv::Point(urColorPointCeil), 5, regionColor, CV_FILLED, CV_AA);
+	cv::circle(cvColorMat, cv::Point(llColorPointCeil), 5, regionColor, CV_FILLED, CV_AA);
+	cv::circle(cvColorMat, cv::Point(lrColorPointCeil), 5, regionColor, CV_FILLED, CV_AA);
 
-	cv::line(cvColorMat, cv::Point(ulColorPointCell), cv::Point(urColorPointCell), regionColor, 3, CV_AA);
-	cv::line(cvColorMat, cv::Point(ulColorPointCell), cv::Point(llColorPointCell), regionColor, 3, CV_AA);
-	cv::line(cvColorMat, cv::Point(urColorPointCell), cv::Point(lrColorPointCell), regionColor, 3, CV_AA);
-	cv::line(cvColorMat, cv::Point(llColorPointCell), cv::Point(lrColorPointCell), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(ulColorPointCeil), cv::Point(urColorPointCeil), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(ulColorPointCeil), cv::Point(llColorPointCeil), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(urColorPointCeil), cv::Point(lrColorPointCeil), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(llColorPointCeil), cv::Point(lrColorPointCeil), regionColor, 3, CV_AA);
 
-	cv::line(cvColorMat, cv::Point(ulColorPoint), cv::Point(ulColorPointCell), regionColor, 3, CV_AA);
-	cv::line(cvColorMat, cv::Point(lrColorPoint), cv::Point(lrColorPointCell), regionColor, 3, CV_AA);
-	cv::line(cvColorMat, cv::Point(urColorPoint), cv::Point(urColorPointCell), regionColor, 3, CV_AA);
-	cv::line(cvColorMat, cv::Point(llColorPoint), cv::Point(llColorPointCell), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(ulColorPoint), cv::Point(ulColorPointCeil), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(lrColorPoint), cv::Point(lrColorPointCeil), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(urColorPoint), cv::Point(urColorPointCeil), regionColor, 3, CV_AA);
+	cv::line(cvColorMat, cv::Point(llColorPoint), cv::Point(llColorPointCeil), regionColor, 3, CV_AA);
 
 	return true;
 }
@@ -176,22 +193,45 @@ const bool BodyDetection::drawUserPoint(const int bodyIndex, cv::Scalar pointCol
 
 void BodyDetection::prepareDrawRectangularRegion(const float yAxisUpperOffset, const float yAxisLowerOffset) {
 	cv::Vec3f upperLeftCorner3d(upperLeftCorner[1], yAxisUpperOffset, upperLeftCorner[0]),
-			  upperRightCorner3d(upperRightCorner[1], yAxisUpperOffset, upperRightCorner[0]),
-			  lowerLeftCorner3d(lowerLeftCorner[1], yAxisLowerOffset, lowerLeftCorner[0]),
-			  lowerRightCorner3d(lowerRightCorner[1], yAxisLowerOffset, lowerRightCorner[0]),
-			  upperLeftCorner3dCell(upperLeftCorner[1], yAxisUpperOffset + 0.8f, upperLeftCorner[0]),
-			  upperRightCorner3dCell(upperRightCorner[1], yAxisUpperOffset + 0.8f, upperRightCorner[0]),
-			  lowerLeftCorner3dCell(lowerLeftCorner[1], yAxisLowerOffset + 0.8f, lowerLeftCorner[0]),
-			  lowerRightCorner3dCell(lowerRightCorner[1], yAxisLowerOffset + 0.8f, lowerRightCorner[0]);
+		upperRightCorner3d(upperRightCorner[1], yAxisUpperOffset, upperRightCorner[0]),
+		lowerLeftCorner3d(lowerLeftCorner[1], yAxisLowerOffset, lowerLeftCorner[0]),
+		lowerRightCorner3d(lowerRightCorner[1], yAxisLowerOffset, lowerRightCorner[0]),
+			  upperLeftCorner3dCeil(upperLeftCorner[1], yAxisUpperOffset + 0.7f, upperLeftCorner[0]),
+			  upperRightCorner3dCeil(upperRightCorner[1], yAxisUpperOffset + 0.7f, upperRightCorner[0]),
+			  lowerLeftCorner3dCeil(lowerLeftCorner[1], yAxisLowerOffset + 0.7f, lowerLeftCorner[0]),
+			  lowerRightCorner3dCeil(lowerRightCorner[1], yAxisLowerOffset + 0.7f, lowerRightCorner[0]);
 
 	ulColorPoint = this->mapCameraToColor(upperLeftCorner3d);
+	if (checkRegionInColorImage(ulColorPoint) == false)
+		ulColorPoint = cv::Vec2i(1919, 1079);
+
 	urColorPoint = this->mapCameraToColor(upperRightCorner3d);
+	if (checkRegionInColorImage(urColorPoint) == false)
+		urColorPoint = cv::Vec2i(0, 1079);
+
 	llColorPoint = this->mapCameraToColor(lowerLeftCorner3d);
+	if (checkRegionInColorImage(llColorPoint) == false)
+		llColorPoint = cv::Vec2i(1919, 1079);
+
 	lrColorPoint = this->mapCameraToColor(lowerRightCorner3d);
-	ulColorPointCell = this->mapCameraToColor(upperLeftCorner3dCell);
-	urColorPointCell = this->mapCameraToColor(upperRightCorner3dCell);
-	llColorPointCell = this->mapCameraToColor(lowerLeftCorner3dCell);
-	lrColorPointCell = this->mapCameraToColor(lowerRightCorner3dCell);
+	if (checkRegionInColorImage(lrColorPoint) == false)
+		lrColorPoint = cv::Vec2i(0, 1079);
+
+	ulColorPointCeil = this->mapCameraToColor(upperLeftCorner3dCeil);
+	if (checkRegionInColorImage(ulColorPointCeil) == false)
+		urColorPointCeil = cv::Vec2i(1919, 0);
+
+	urColorPointCeil = this->mapCameraToColor(upperRightCorner3dCeil);
+	if (checkRegionInColorImage(urColorPointCeil) == false)
+		urColorPointCeil = cv::Vec2i(0, 0);
+
+	llColorPointCeil = this->mapCameraToColor(lowerLeftCorner3dCeil);
+	if (checkRegionInColorImage(llColorPointCeil) == false)
+		llColorPointCeil = cv::Vec2i(1919, 0);
+
+	lrColorPointCeil = this->mapCameraToColor(lowerRightCorner3dCeil);
+	if (checkRegionInColorImage(lrColorPointCeil) == false)
+		lrColorPointCeil = cv::Vec2i(0, 0);
 }
 
 void BodyDetection::prepareMessageToSend() {
@@ -205,6 +245,11 @@ void BodyDetection::prepareMessageToSend() {
 		bodyDetectedMessage tempMessage;
 		tempMessage.userID = this->userID[index];
 		tempMessage.detectedBody = this->userInRegion[index];
+
+		std::map<JointType, Kinect2::Joint> userJointMap = this->cvBodyFrame.getBodies()[index].getJointMap();
+		tempMessage.x = userJointMap[JointType_Head].getPosition()[0];
+		tempMessage.y = userJointMap[JointType_Head].getPosition()[1];
+		tempMessage.z = userJointMap[JointType_Head].getPosition()[2];
 
 		messagesToSend.push_back(tempMessage);
 	}
@@ -235,11 +280,25 @@ void bodyDetectedMessage::makeMessage() {
 	std::string newline = "\n";
 
 	std::stringstream ss;
-	std::string userIDstr;
+	std::string userIDstr = "2";
 	ss << this->userID; ss >> userIDstr;
 
 	std::string userInRegionFlag = "false";
 	if (this->detectedBody == true)
 		userInRegionFlag = "true";
-	this->messageToSend = header + space + userIDstr + space + userInRegionFlag + newline;
+
+	std::string xPosition = "0.0";
+	ss.str(""); ss.clear();
+	ss << this->x; ss >> xPosition;
+
+	std::string yPosition = "0.0";
+	ss.str(""); ss.clear();
+	ss << this->y; ss >> yPosition;
+
+	std::string zPosition = "0.0";
+	ss.str(""); ss.clear();
+	ss << this->z; ss >> zPosition;
+
+	this->messageToSend = header + space + userIDstr + space + userInRegionFlag + space + 
+		                  xPosition + space + yPosition + space + zPosition + newline;
 }

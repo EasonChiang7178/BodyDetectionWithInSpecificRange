@@ -1032,4 +1032,15 @@ namespace Kinect2 {
 				return cv::Vec3b(0xFF, 0xFF, 0xFF);
 		}
 	}
+
+	const bool K4Wv2ToOpenCV::checkRegionInColorImage(cv::Vec2i& point) {
+		bool existed = true;
+
+		if (point[0] <= 0)		existed = false;
+		if (point[0] >= 1920)	point[0] = 1919;
+		if (point[1] <= 0)		existed = false;
+		if (point[1] >= 1080)	point[1] = 1079;
+
+		return existed;
+	}
 }

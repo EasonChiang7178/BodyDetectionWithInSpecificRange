@@ -4,6 +4,8 @@
 
 #include "BodyDetection\BodyDetection.h"
 
+#define COMMUICATION
+
 using namespace Kinect2;
 using namespace std;
 
@@ -78,8 +80,10 @@ int main(int argc, char** argv) {
 	bodyDetector.initializeColorStream();
 	bodyDetector.initializeBodyStream();
 
+#ifdef COMMUICATION
 	try {
 		bodyDetector.connectTo(Port, IPAddress);
+		cout << "> [INFO] Connect to " << IPAddress << " succeed!" << endl;
 	} catch (exception& e) {
 		cerr << "> [ERROR] " << e.what() << " in " << IPAddress << ":" << Port << endl
 			 << "                   (Executing offline...)" << endl
@@ -89,6 +93,7 @@ int main(int argc, char** argv) {
 		char pause;
 		pause = getchar();
 	}
+#endif // COMMUICATION
 
 	cout << "\n> [INFO] Please press ''q'' or ''Esc'' to exit" << endl;
 
@@ -106,7 +111,7 @@ int main(int argc, char** argv) {
 		bodyDetector.drawRegionInColorImage();
 		bodyDetector.drawBodiesInRegion();
 		bodyDetector.drawUserPosition();
-		
+
 		if (connectToServer == true)
 			bodyDetector.sendMessage();
 
@@ -134,10 +139,10 @@ int main(int argc, char** argv) {
 							  << "  InRegion:    " << userInRegion[bodiesIter->getIndex()] << endl
 							  << "  Position, x: " << userPosition[bodiesIter->getIndex()][0] << endl
 							  << "            y: " << userPosition[bodiesIter->getIndex()][1] << endl
-							  << "            z: " << userPosition[bodiesIter->getIndex()][2] << endl << endl;
-					//<< "  Position, x: " << joints[JointType_HandRight].getPosition()[0] << endl
-					//<< "            y: " << joints[JointType_HandRight].getPosition()[1] << endl
-					//<< "            z: " << joints[JointType_HandRight].getPosition()[2] << endl << endl;
+							  << "            z: " << userPosition[bodiesIter->getIndex()][2] << endl << endl
+							  << "  Position, x: " << joints[JointType_Head].getPosition()[0] << endl
+							  << "            y: " << joints[JointType_Head].getPosition()[1] << endl
+							  << "            z: " << joints[JointType_Head].getPosition()[2] << endl << endl;
 				}
 			}
 			std::cout << "============== Info ==============" << endl;

@@ -14,6 +14,10 @@ using namespace Kinect2;
 
 class bodyDetectedMessage : public message {
 public:
+	float x;
+	float y;
+	float z;
+
 	bool detectedBody;
 	unsigned long long userID;
 
@@ -64,10 +68,10 @@ protected:
 	cv::Vec2f lowerRightCorner;
 	cv::Vec2f lowerLeftCorner;
 		// Used to draw the rough detection region on the color image
-	cv::Vec2i ulColorPoint, ulColorPointCell;
-	cv::Vec2i urColorPoint, urColorPointCell;
-	cv::Vec2i llColorPoint, llColorPointCell;
-	cv::Vec2i lrColorPoint, lrColorPointCell;
+	cv::Vec2i ulColorPoint, ulColorPointCeil;
+	cv::Vec2i urColorPoint, urColorPointCeil;
+	cv::Vec2i llColorPoint, llColorPointCeil;
+	cv::Vec2i lrColorPoint, lrColorPointCeil;
 
 	/* Variables for communication */
 	TCPConnector					connector;

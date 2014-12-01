@@ -258,6 +258,8 @@ namespace Kinect2 {
 
 		/* Auxiliary function set */
 		cv::Vec3b colorizeBody(const unsigned char& bodyIndex);
+
+		const bool checkRegionInColorImage(cv::Vec2i& point);
 	};
 }
 
